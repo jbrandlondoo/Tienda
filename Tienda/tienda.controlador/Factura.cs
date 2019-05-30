@@ -36,7 +36,7 @@ namespace tienda.controlador
                         factura.total = item.total;
                         factura.date = item.fecha;
                         cliente.nombre = item.nombreCliente;
-                        cliente.id = item.idCliente;
+                        factura.cliente = item.idCliente;
                         i++;
                     }
                     EN.Producto producto = new EN.Producto();
@@ -48,7 +48,7 @@ namespace tienda.controlador
                     productos.Add(producto);
                 }
                 factura.productos = productos;
-                factura.cliente = cliente;
+                
             }
             catch (Exception)
             {
@@ -95,7 +95,6 @@ namespace tienda.controlador
                         producto.descuento = item.descuento;
                         productos.Add(producto);
                         factura.productos = productos;
-                        factura.cliente = cliente;
                 }
                
             }
@@ -115,6 +114,27 @@ namespace tienda.controlador
 
         public bool insertFactura(EN.Factura factura)
         {
+            try
+            {
+                BR.factura facturaNew = new BR.factura();
+                facturaNew.idCliente = factura.cliente;
+                facturaNew.total = factura.total;
+                facturaNew.fecha = factura.date;
+                db.facturas.Add(facturaNew);
+                db.SaveChanges();
+                int idFactura = facturaNew.idFactura;
+                foreach (var item in factura.productos)
+                {
+                    DetalleFactura detalle = new DetalleFactura();
+                    detalle.crearDetalle(item, idFactura);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return false;
         }
         public bool updateFactura(EN.Factura factura)

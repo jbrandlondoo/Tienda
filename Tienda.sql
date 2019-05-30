@@ -7,5 +7,3 @@ CREATE TABLE productos(idProductos INT PRIMARY KEY IDENTITY(1,1), nombreProducto
 CREATE TABLE factura(idFactura INT primary key IDENTITY(1,1), total FLOAT NOT NULL, fecha DATETIME NOT NULL, idCliente int FOREIGN KEY REFERENCES cliente(idCliente));
 CREATE TABLE detalleFactura(descuento FLOAT NOT NULL,cantidad INT NOT NULL, idFactura INT FOREIGN KEY REFERENCES dbo.factura(idFactura),idProducto INT FOREIGN KEY REFERENCES dbo.productos(idProductos), PRIMARY KEY (idFactura, idProducto));
 CREATE TABLE telefono(idCliente INT FOREIGN KEY REFERENCES dbo.cliente(idCliente), numero VARCHAR(20) PRIMARY KEYdbo.telefono NOT NULL);
-
-dbo.detalleFactura

@@ -17,6 +17,7 @@ namespace tienda.entidad
         public string categoria { get; set; }
         public int cantidad { get; set; }
         public double descuento { get; set; }
+        public double total { set; get; }
 
     }
 }

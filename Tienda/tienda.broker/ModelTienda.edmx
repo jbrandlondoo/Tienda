@@ -25,7 +25,7 @@
             <PropertyRef Name="idCliente" />
           </Key>
           <Property Name="idCliente" Type="int" Nullable="false" />
-          <Property Name="nombreCliente" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="nombreCliente" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="idCiudad" Type="int" Nullable="false" />
         </EntityType>
@@ -217,7 +217,7 @@
             <PropertyRef Name="idCliente" />
           </Key>
           <Property Name="idCliente" Type="Int32" Nullable="false" />
-          <Property Name="nombreCliente" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombreCliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idCiudad" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ciudad" Relationship="Self.FK__cliente__idCiuda__1F98B2C1" FromRole="cliente" ToRole="ciudad" />

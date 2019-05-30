@@ -11,7 +11,7 @@ namespace tienda.entidad
     {
         public int id { get; set; }
         public DateTime date { set; get; }
-        public Cliente cliente { set; get; }
+        public int cliente { set; get; }
         public List<Producto> productos { set; get; }
         public double total { get; set; }
     }
