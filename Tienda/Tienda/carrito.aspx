@@ -54,7 +54,9 @@
                 </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
+             <asp:TextBox ID="txtComentarios" value="" runat="server" Width="583px"></asp:TextBox>
              <asp:Button Text="realizar compra" OnClick="compra_Click" runat="server" />
+               
         </div>
     </form>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

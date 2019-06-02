@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using EN = tienda.entidad;
 using BR = tienda.broker;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace tienda.controlador
 {
     public class Producto
     {
         private BR.BDDatoEntities db = new BR.BDDatoEntities();
+
 
         public List<EN.Producto> listProductos(){
             List<EN.Producto> productos = new List<EN.Producto>();
@@ -84,5 +87,30 @@ namespace tienda.controlador
             }
             return false;
         }
+
+        public async Task<bool> comProductAsync(String comment)
+        {
+            try
+            {
+                MongoClient client = new MongoClient("mongodb://userdb:password123@cluster0-shard-00-00-ueyav.mongodb.net:27017");
+                var database = client.GetDatabase("DB_Comentarios");
+                var collection = database.GetCollection<BsonDocument>("Comentarios");
+
+                BsonDocument document = new BsonDocument
+                {
+                    {"comentario" , comment}
+                };
+
+                await collection.InsertOneAsync(document);
+
+                return true;
+            }catch(Exception e)
+            {
+                return false;
+            }
+            
+
+        }
     }
+
 }

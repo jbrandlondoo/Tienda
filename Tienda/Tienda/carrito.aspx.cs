@@ -46,6 +46,11 @@ namespace Tienda
         }
         protected void compra_Click(object sender, EventArgs e)
         {
+            //llamado a seccion de comentarios mongo db
+            String Comentario = txtComentarios.Text;
+            CT.Producto producto = new CT.Producto();
+            //------------------------------------------
+            producto.comProductAsync(Comentario);
             CT.Factura facturaCt = new CT.Factura();
             productos = (List<EN.Producto>)cache.Get("carrito");
             EN.Factura facturaEn = new EN.Factura();
@@ -53,11 +58,13 @@ namespace Tienda
             facturaEn.date = date;
             facturaEn.cliente = 1038;
             facturaEn.productos = productos;
+            
             foreach (var item in productos)
             {
                 facturaEn.total += item.total;
             }
             facturaCt.insertFactura(facturaEn);
+            
         }
     }
 }
