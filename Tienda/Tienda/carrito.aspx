@@ -54,7 +54,6 @@
                 </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-             <asp:TextBox ID="txtComentarios" value="" runat="server" Width="583px"></asp:TextBox>
              <asp:Button Text="realizar compra" OnClick="compra_Click" runat="server" />
                
         </div>

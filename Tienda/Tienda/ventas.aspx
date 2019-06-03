@@ -13,9 +13,7 @@
        
         <div class="container" style="width:780px;margin-top:50px;">
             <a href="carrito.aspx">ir a carrito</a>
-             <asp:TextBox ID="TextBox1" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
-            <asp:Button ID="Button1" runat="server" Text="buscar" />
-            <asp:GridView ID="viewProducts" CssClass="table table-hover shopping-cart-wrap" gridlines="None" runat="server" OnRowUpdating="Guardar" Height="241px" Width="841px" AutoGenerateColumns="false" OnSelectedIndexChanged="viewProducts_SelectedIndexChanged">
+            <asp:GridView ID="viewProducts" CssClass="table table-hover shopping-cart-wrap" gridlines="None" runat="server" OnRowUpdating="Guardar" Height="241px" Width="841px" AutoGenerateColumns="false" OnRowEditing="viewProducts_RowEditing" >
                     <Columns>
                         <asp:TemplateField HeaderText="Producto">
                             <ItemTemplate >
@@ -44,13 +42,20 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="U.disponibles">
                             <ItemTemplate>
-                                <asp:Label Text='<%# Eval("stock") %>' runat="server">
+                                <asp:Label ID="stock" Text='<%# Eval("stock") %>' runat="server">
                                 </asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                         <asp:TemplateField HeaderText="commentario">
+                            <ItemTemplate>
+                                <asp:TextBox ID="TextBox4" runat="server"></asp:TextBox>
+                                <asp:Button ID="Button2" runat="server" Text="agregar" CommandName="Edit" ToolTip="Edit"/>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="cantidad" ItemStyle-Width="250px">
                             <ItemTemplate>
-                                <asp:TextBox ID="TextBox2" value="1" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="TextBox2" value="1"  runat="server"></asp:TextBox>
+
                                 <asp:ImageButton ID="ButtonGuardar" runat="server" CommandName="Update" ToolTip="Update" ImageUrl="img/icons8-comprar-26.png"/>
                                 <%--<asp:LinkButton ID="ButtonEditar" runat="server" Text="Edit" CssClass="btn btn-success" CommandName="Edit" ToolTip="Edit" />--%>
                             </ItemTemplate>
@@ -59,7 +64,6 @@
                 </asp:GridView>
         </div>
     </form>
-
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

@@ -23,6 +23,7 @@ namespace Tienda
             if (!IsPostBack)
             {
                 cache["carrito"] = productos;
+                cache["userid"] = 1038;
                 cargar();
             }
         }
@@ -39,22 +40,12 @@ namespace Tienda
 
         }
 
-        protected void viewProducts_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            if (e.CommandName == "add")
-            {
-                List<EN.Producto> productos = (List<EN.Producto>)cache.Get("carrito");
-                EN.Producto producto = new EN.Producto();
-                
-                //GridViewRow row = viewProducts.Rows[e.RowIndex]; 
-            }
-        }
-
         protected void Guardar(object sender, GridViewUpdateEventArgs e)
         {
             //Update the values.
             GridViewRow row = viewProducts.Rows[e.RowIndex];
             var idProducto = (Label)((GridViewRow)viewProducts.Rows[e.RowIndex]).FindControl("idProduct");
+            var stock = (Label)((GridViewRow)viewProducts.Rows[e.RowIndex]).FindControl("stock");
             var TextBox1 = (TextBox)((GridViewRow)viewProducts.Rows[e.RowIndex]).FindControl("TextBox2");
             var ButtonGuardar = (ImageButton)((GridViewRow)viewProducts.Rows[e.RowIndex]).FindControl("ButtonGuardar");
             int id = Convert.ToInt16(idProducto.Text);
@@ -63,6 +54,11 @@ namespace Tienda
             try
             {
                 producto.cantidad = Convert.ToInt16(TextBox1.Text);
+                if (!(Convert.ToInt16(stock.Text) > producto.cantidad))
+                {
+                    producto.cantidad = Convert.ToInt16(stock.Text);
+                }
+                
 
             }
             catch (Exception)
@@ -79,17 +75,19 @@ namespace Tienda
             return (cantidad * precio) * (1 - (descuento/100));
         }
 
-        protected void viewProducts_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
+        protected void commentar(object sender, GridViewUpdateEventArgs e) {
+           
+        }
+
+        protected void viewProducts_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            var TextBox4 = (TextBox)((GridViewRow)viewProducts.Rows[e.NewEditIndex]).FindControl("TextBox4");
+            var idProducto = (Label)((GridViewRow)viewProducts.Rows[e.NewEditIndex]).FindControl("idProduct");
+            int id = Convert.ToInt16(idProducto.Text);
+            var idcliente = (int)cache.Get("userid");
+            var comment = TextBox4.Text;
+            producto.comProductAsync(comment, id, idcliente);
         }
     }
 }

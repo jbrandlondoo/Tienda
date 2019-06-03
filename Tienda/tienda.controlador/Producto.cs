@@ -7,14 +7,17 @@ using EN = tienda.entidad;
 using BR = tienda.broker;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 
 namespace tienda.controlador
 {
     public class Producto
     {
         private BR.BDDatoEntities db = new BR.BDDatoEntities();
-
-
+       
+        //protected static IMongoClient client = new MongoClient("mongodb+srv://userdb:Password123@cluster0-laupy.mongodb.net/test?retryWrites=true&w=majority");
+        protected static IMongoClient client = new MongoClient("mongodb://userdb:Password123@mycluster0-shard-00-00.mongodb.net:27017,mycluster0-shard-00-01.mongodb.net:27017,mycluster0-shard-00-02.mongodb.net:27017/admin?ssl=true&replicaSet=Mycluster0-shard-0&authSource=admin");
+        protected static IMongoDatabase database = client.GetDatabase("DB_Comentarios");
         public List<EN.Producto> listProductos(){
             List<EN.Producto> productos = new List<EN.Producto>();
             try
@@ -76,8 +79,9 @@ namespace tienda.controlador
             try
             {
                 var oldProducto = db.productos.Find(producto.id);
-                producto.cantidad = oldProducto.stock - producto.cantidad;
-                db.Entry(oldProducto).CurrentValues.SetValues(producto);
+                BR.producto productonew = oldProducto;
+                productonew.stock = oldProducto.stock - producto.cantidad;
+                db.Entry(oldProducto).CurrentValues.SetValues(productonew);
                 db.SaveChanges();
                 return true;
             }
@@ -88,26 +92,24 @@ namespace tienda.controlador
             return false;
         }
 
-        public async Task<bool> comProductAsync(String comment)
+        public bool comProductAsync(String comment,int idProducto,int idCliente)
         {
-            try
-            {
-                MongoClient client = new MongoClient("mongodb://userdb:password123@cluster0-shard-00-00-ueyav.mongodb.net:27017");
-                var database = client.GetDatabase("DB_Comentarios");
                 var collection = database.GetCollection<BsonDocument>("Comentarios");
 
                 BsonDocument document = new BsonDocument
                 {
+                    {"producto",idProducto },
+                    {"cliente",idCliente },
                     {"comentario" , comment}
                 };
 
-                await collection.InsertOneAsync(document);
+                collection.InsertOne(document);
 
                 return true;
-            }catch(Exception e)
-            {
-                return false;
-            }
+            //}catch(Exception e)
+            //{
+            //    return false;
+            //}
             
 
         }
